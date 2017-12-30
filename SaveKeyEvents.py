@@ -6,7 +6,7 @@ import cv2
 
 class KeyClipWriter:
     def __init__(self, bufSize=64, timeOut=1.0):
-        self.bufSize = bufsize
+        self.bufSize = bufSize
         self.timeOut = timeOut
 
         self.frames = deque(maxlen=bufSize)
@@ -23,14 +23,14 @@ class KeyClipWriter:
         
     def start(self, outputPath, fourcc, fps):
         self.recording = True
-        self.writer = cv2.VideoWriter(outputPath, fourcc, fps, (sel.frames[0].shape[1], self.frame[0],shape[0]), true)
+        self.writer = cv2.VideoWriter(outputPath, fourcc, fps, (self.frames[0].shape[1], self.frame[0],shape[0]), true)
         self.Q = Queue()
 
         for i in range(len(self.frames), 0, -1):
             self.Q.put(self.frames[i - 1])
         
         self.thread = Thread(target=self.write, args=())
-        self.thread.daemon = true
+        self.thread.daemon = True
         self.thread.start()
     
     def write(self):
@@ -43,4 +43,4 @@ class KeyClipWriter:
                 self.writer.write(frame)
 
             else:
-                time.sleep(self.timeout)
+                time.sleep(self.timeOut)
